@@ -1,4 +1,4 @@
-import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Modal, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import { COLORS } from '../../constants/COLORS'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
@@ -8,6 +8,7 @@ import DateButton from '../../components/DateButton'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TravelModal from '../../components/TravelModal'
 import PrimaryButton from '../../components/PrimaryButton'
+import getAirports from '../../api/GetAirports'
 
 const RoundTrip = () => {
   console.log("RoundTrip");
@@ -22,6 +23,9 @@ const RoundTrip = () => {
   const [dateOne, setDateOne] = useState(new Date().toDateString());
   const [dateTwo, setDateTwo] = useState(new Date().toDateString());
   const [travelerModal, setTravelerModal] = useState(false);
+  const [airport, setAirport] = useState([])
+  const [fromSuggestion, setFromSuggestion] = useState(false)
+  const [activeField, setActiveField] = useState(null)
 
   // const totalTravelers = travelers.adults + travelers.children + travelers.infants + travelers.infantsOnLap;
 
@@ -30,6 +34,51 @@ const RoundTrip = () => {
   //   const total = travelers.adults + travelers.children + travelers.infants + travelers.infantsOnLap;
   //   return total; 
   // }
+  console.log(fromFlight);
+  // console.log("Airports", airport);
+  
+  // Calling api to search flights
+  const searchFlights = async (airport, field) =>{
+
+    // if no data or letters less than 2 api won't call.
+    if(!airport || airport.length < 2 ){
+      return
+    }
+
+    console.log("in seacrch flight 1");
+    setActiveField(field)
+    try {
+      const result = await getAirports(airport)    
+      console.log("Search flight 2");
+      
+      console.log("result", result);
+      console.log("Airport result", result.data);
+
+      if(result.status){
+        setAirport(result.data)
+        setFromSuggestion(true)
+      }
+      
+      
+    } catch (error) {
+      console.log("error", error);
+       
+    }
+  }
+
+  const airportPick = (airport) =>{
+    if(activeField==='from'){
+      setFromFlight(airport)
+      setFromSuggestion(false)
+    }
+    else if(activeField === 'to'){
+      setToFlight(airport)
+      setFromSuggestion(false)
+    }
+    setFromSuggestion(false)
+    setActiveField(null)
+  }
+  
 
   const datePickerOne =()=>{
     console.log('Date Picker One');
@@ -71,18 +120,47 @@ const RoundTrip = () => {
     
   }
 
+
+
   
   return (
     <View style={styles.container}>
       <ToFromField containerStyle={styles.fieldStyle} 
       value={fromFlight} 
-      onChangeText={setFromFlight}/>
+      onChangeText={(text)=>{
+        setFromFlight(text)
+        searchFlights(text, 'from')
+      }   
+      }/>
 
       <ToFromField containerStyle={styles.fieldStyle} 
       placeholder='To' 
       icon='flight-land' v
-      alue={toFlight} 
-      onChangeText={setToFlight}/>
+      value={toFlight} 
+      onChangeText={(text)=>{
+        setToFlight(text)
+        searchFlights(text, 'to')
+      }}/>
+
+      {
+        fromSuggestion  && 
+        <ScrollView style={styles.suggestionsContainer}>
+          {airport.map((item, index) => (
+            <TouchableOpacity
+              key={item.entityId || index}
+              style={styles.suggestionItem}
+              onPress={() => {
+                airportPick(item.presentation.title)
+                console.log("Selected Airport");
+                
+              }}
+            >
+              <Text style={styles.suggestionText}>{item.presentation.title}</Text>
+              <Text style={styles.suggestionSubText}>{item.presentation.subtitle}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      }
       
       {/* DateView */}
       <View style={styles.dateArea}>
@@ -105,7 +183,7 @@ const RoundTrip = () => {
         <TravelModal />
 
         {/* <View style={{flex: 1}}> */}
-          <PrimaryButton buttonName={'Search Flights'} buttonStyle={styles.searchButton}/>
+          <PrimaryButton buttonName={'Search Flights'} buttonStyle={styles.searchButton} />
         {/* </View> */}
         
         
@@ -144,5 +222,31 @@ const styles = StyleSheet.create({
   searchButton: {
     width: wp('90%'),
     marginTop: 'auto'
+  },
+    suggestionsContainer: {
+    backgroundColor: COLORS.white,
+    borderRadius: 8,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginTop: 5,
+    maxHeight: hp('30%'),
+  },
+  suggestionItem: {
+    padding: wp('4%'),
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+  },
+  suggestionText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: COLORS.black,
+  },
+  suggestionSubText: {
+    fontSize: 14,
+    color: COLORS.gray,
+    marginTop: 2,
   },
 })

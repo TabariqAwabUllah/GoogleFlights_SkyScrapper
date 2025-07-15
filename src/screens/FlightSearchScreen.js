@@ -24,7 +24,7 @@ const FlightSearchScreen = () =>{
   console.log("Flight search Screen");
   
 
-  const [activeTab, setActiveTab] = useState('One-Way');
+  const [activeTab, setActiveTab] = useState('Round-Trip');
 
   const navigation = useNavigation()
 

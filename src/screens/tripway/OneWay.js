@@ -8,6 +8,7 @@ import DateButton from '../../components/DateButton'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TravelModal from '../../components/TravelModal'
 import PrimaryButton from '../../components/PrimaryButton'
+import getAirports from '../../api/GetAirports'
 
 const OneWay = () => {
   console.log("OneWay");
@@ -19,6 +20,9 @@ const OneWay = () => {
   const [departureDate, setDepartureDate] = useState(new Date().toDateString());
   const [datePickerView, setDatePickerView] = useState(false);
   const [travelerModal, setTravelerModal] = useState(false);
+  const [airport, setAirport] = useState([])
+  const [fromSuggestion, setFromSuggestion] = useState(false)
+  const [activeField, setActiveField] = useState(null)
 
   const datePickerHandler = () => {
     console.log('Date Picker Handler');
@@ -40,13 +44,58 @@ const OneWay = () => {
       setDatePickerView(false);
     }
   }
+    // Calling api to search flights
+  const searchFlights = async (airport, field) =>{
+
+    // if no data or letters less than 2 api won't call.
+    if(!airport || airport.length < 2 ){
+      return
+    }
+
+    console.log("in seacrch flight 1");
+    setActiveField(field)
+    try {
+      const result = await getAirports(airport)    
+      console.log("Search flight 2");
+      
+      console.log("result", result);
+      console.log("Airport result", result.data);
+
+      if(result.status){
+        setAirport(result.data)
+        setFromSuggestion(true)
+      }
+      
+      
+    } catch (error) {
+      console.log("error", error);
+        
+    }
+  }
+
+  const airportPick = (airport) =>{
+  if(activeField==='from'){
+    setFromFlight(airport)
+    setFromSuggestion(false)
+  }
+  else if(activeField === 'to'){
+    setToFlight(airport)
+    setFromSuggestion(false)
+  }
+  setFromSuggestion(false)
+  setActiveField(null)
+}
 
   return (
     <View style={styles.container}>
       <ToFromField 
         containerStyle={styles.fieldStyle} 
         value={fromFlight} 
-        onChangeText={setFromFlight}
+        onChangeText={(text)=>{
+        setFromFlight(text)
+        searchFlights(text, 'from')
+      }   
+      }
       />
 
       <ToFromField 
@@ -54,8 +103,31 @@ const OneWay = () => {
         placeholder='To' 
         icon='flight-land' 
         value={toFlight} 
-        onChangeText={setToFlight}
+        onChangeText={(text)=>{
+        setToFlight(text)
+        searchFlights(text, 'to')
+      }}
       />
+
+      {
+        fromSuggestion  && 
+        <ScrollView style={styles.suggestionsContainer}>
+          {airport.map((item, index) => (
+            <TouchableOpacity
+              key={item.entityId || index}
+              style={styles.suggestionItem}
+              onPress={() => {
+                airportPick(item.presentation.title)
+                console.log("Selected Airport");
+                
+              }}
+            >
+              <Text style={styles.suggestionText}>{item.presentation.title}</Text>
+              <Text style={styles.suggestionSubText}>{item.presentation.subtitle}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      }
       
       {/* Single Date View */}
       <View style={styles.dateArea}>

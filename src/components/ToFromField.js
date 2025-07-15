@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { COLORS } from '../constants/COLORS';
 
 const ToFromField = ({placeholder = 'From', icon = 'flight-takeoff', onChangeText, value,
-    enterKeyHint = 'next', containerStyle,
+    enterKeyHint = 'next', containerStyle, onPress, onPressIn, onPressOut
 }) => {
   console.log("To From Field");
   
@@ -21,6 +21,9 @@ const ToFromField = ({placeholder = 'From', icon = 'flight-takeoff', onChangeTex
         value={value}
         style={styles.inputStyle}
         enterKeyHint={enterKeyHint}
+        onPress={onPress}
+        onPressIn={onPressIn}
+        onPressOut={onPressOut}
         />
       
     </View>

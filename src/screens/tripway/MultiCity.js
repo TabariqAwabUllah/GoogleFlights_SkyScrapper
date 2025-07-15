@@ -85,6 +85,8 @@ const MultiCity = () => {
       {/* Render all flight segments */}
       {flights.map((flight, index) => (
         <View key={flight.id} style={styles.flightSegment}>
+
+          {/* this will remove button if flights are more than 2 */}
           <View style={styles.flightHeader}>
             <Text style={styles.flightTitle}>Flight {index + 1}</Text>
             {flights.length > 2 && (
