@@ -5,6 +5,7 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import Login from '../screens/auth/Login';
 import HomePage from '../screens/HomePage';
 import FlightSearchScreen from '../screens/FlightSearchScreen';
+import Flights from '../screens/Flights';
 
 const Navigation = () => {
 
@@ -17,6 +18,7 @@ const Navigation = () => {
         <Stack.Screen name='Login' component={Login} />
         <Stack.Screen name='HomePage' component={HomePage} />
         <Stack.Screen name='FlightSearchScreen' component={FlightSearchScreen} />
+        <Stack.Screen name='Flights' component={Flights}/>
     </Stack.Navigator>
   )
 }

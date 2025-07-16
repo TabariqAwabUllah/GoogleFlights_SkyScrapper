@@ -1,20 +1,22 @@
 import axios from "axios";
+import { API_KEY } from '@env'
 
 
+const baseUrl = 'https://sky-scrapper.p.rapidapi.com/'
 // airport details, after that we can search flights
-export default async function getAirports (queryParam){
+export async function getAirports (queryParam){
     
     try {
         console.log("in getAiport 1");
         
-        const response = await axios.get('https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchAirport',{
+        const response = await axios.get(`${baseUrl}api/v1/flights/searchAirport`,{
             
             params:{
                 query:  queryParam,
                 locale: 'en-US'
             },
             headers: {
-                "x-rapidapi-key": "74ae14fffbmshc631668284f1403p12acc2jsn1f736008bb06",
+                "x-rapidapi-key": API_KEY,
                 "x-rapidapi-host": "sky-scrapper.p.rapidapi.com"
             },
             
@@ -32,6 +34,31 @@ export default async function getAirports (queryParam){
         console.log("error in getAirports:",error);
         throw error
         
+    }
+}
+
+export async function getFlights(fromDetails, toDetails) {
+    console.log("flights API");
+    
+    try {
+        const flights = await axios.get(`${baseUrl}api/v2/flights/searchFlights`,{
+            params :{
+                originSkyId: fromDetails.originSkyId,
+                destinationSkyId: toDetails.originSkyId,
+                originEntityId: fromDetails.originEntityId,
+                destinationEntityId: toDetails.originEntityId,
+                date: fromDetails.date
+            },
+            headers:{
+                "x-rapidapi-key": API_KEY,
+                'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com'
+            }
+        })
+        console.log("flights data: ", flights.data);
+        
+        return(flights.data)
+    } catch (error) {
+        console.log("error in getFlights", error);
     }
 }
 

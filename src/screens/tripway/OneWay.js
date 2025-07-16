@@ -8,11 +8,12 @@ import DateButton from '../../components/DateButton'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TravelModal from '../../components/TravelModal'
 import PrimaryButton from '../../components/PrimaryButton'
-import getAirports from '../../api/GetAirports'
+import { getAirports, getFlights } from '../../api/GetAirports'
+import { useNavigation } from '@react-navigation/native'
+
 
 const OneWay = () => {
   console.log("OneWay");
-  
   const [fromFlight, setFromFlight] = useState('');
   const [toFlight, setToFlight] = useState('');
   
@@ -23,10 +24,29 @@ const OneWay = () => {
   const [airport, setAirport] = useState([])
   const [fromSuggestion, setFromSuggestion] = useState(false)
   const [activeField, setActiveField] = useState(null)
+  const [toDetails, setToDetails] = useState({
+    originSkyId: '',
+    originEntityId: '',
+    date: '', // YYYY-MM-DD
+    flightTo: '',
+
+  })
+
+  const [fromDetails, setFromDetails] = useState({
+    originSkyId: '',
+    originEntityId: '',
+    date: '', // YYYY-MM-DD
+    flightFrom: '',
+
+  })
+  
+  const navigation = useNavigation()
+
 
   const datePickerHandler = () => {
-    console.log('Date Picker Handler');
     setDatePickerView(true);
+    console.log('Date Picker Handler', datePickerView);
+    
   }
 
   // Date picker change handler
@@ -35,17 +55,34 @@ const OneWay = () => {
     // event and selectedDate are provided by the DateTimePicker by default
     console.log('Event:', event); 
     console.log('Selected Date:', selectedDate.toDateString());
+    const year = selectedDate.getFullYear()
+    const month = String(selectedDate.getMonth() +1 ).padStart(2,'0')
+    const date = String(selectedDate.getDate()).padStart(2, '0')
+
+    const formateDate = `${year}-${month}-${date}`
     
+    // console.log("FormatedDAte", formateDate);
+    
+
     if(event.type === 'set') {
       setDepartureDate(selectedDate.toDateString());
+      setFromDetails(prev=>({
+        ...prev, date: formateDate,
+      }))
       setDatePickerView(false);
+      
+      
     }
     if(event.type === 'dismissed'){
       setDatePickerView(false);
+      console.log('cancel setdate',datePickerView);
     }
+
+    
+    
   }
     // Calling api to search flights
-  const searchFlights = async (airport, field) =>{
+  const searchAirports = async (airport, field) =>{
 
     // if no data or letters less than 2 api won't call.
     if(!airport || airport.length < 2 ){
@@ -75,16 +112,47 @@ const OneWay = () => {
 
   const airportPick = (airport) =>{
   if(activeField==='from'){
-    setFromFlight(airport)
+
+    setFromFlight(airport.presentation.title)
+    setFromDetails((prev)=>({
+      ...prev, 
+      originSkyId: airport.relevantFlightParams.skyId,
+      originEntityId: airport.relevantFlightParams.entityId,
+      flightFrom: airport.presentation.title,
+
+    }))
     setFromSuggestion(false)
   }
   else if(activeField === 'to'){
-    setToFlight(airport)
+
+    setToFlight(airport.presentation.title)
+    setToDetails((prev)=>({
+      ...prev, 
+      originSkyId: airport.relevantFlightParams.skyId,
+      originEntityId: airport.relevantFlightParams.entityId,
+      flightTo: airport.presentation.title,
+
+    }))
+    
     setFromSuggestion(false)
   }
   setFromSuggestion(false)
   setActiveField(null)
 }
+
+  const flightSearch =async (fromDetails, toDetails)=>{
+    console.log("flight search func");
+    
+    const flightSearch = await getFlights(fromDetails, toDetails)
+    if(flightSearch.status){
+      navigation.navigate('Flights', {flights: flightSearch.data})
+    }
+    else {
+      navigation.navigate('Flights')
+    }
+
+    
+  }
 
   return (
     <View style={styles.container}>
@@ -93,7 +161,7 @@ const OneWay = () => {
         value={fromFlight} 
         onChangeText={(text)=>{
         setFromFlight(text)
-        searchFlights(text, 'from')
+        searchAirports(text, 'from')
       }   
       }
       />
@@ -105,7 +173,7 @@ const OneWay = () => {
         value={toFlight} 
         onChangeText={(text)=>{
         setToFlight(text)
-        searchFlights(text, 'to')
+        searchAirports(text, 'to')
       }}
       />
 
@@ -117,7 +185,7 @@ const OneWay = () => {
               key={item.entityId || index}
               style={styles.suggestionItem}
               onPress={() => {
-                airportPick(item.presentation.title)
+                airportPick(item)
                 console.log("Selected Airport");
                 
               }}
@@ -154,6 +222,7 @@ const OneWay = () => {
       <PrimaryButton 
         buttonName={'Search Flights'} 
         buttonStyle={styles.searchButton}
+        onPress={()=>flightSearch(fromDetails, toDetails)}
       />
     </View>
   )
