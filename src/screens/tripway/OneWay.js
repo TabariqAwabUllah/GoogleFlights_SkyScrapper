@@ -89,14 +89,14 @@ const OneWay = () => {
       return
     }
 
-    console.log("in seacrch flight 1");
+    console.log("in seacrch Airport 1");
     setActiveField(field)
     try {
       const result = await getAirports(airport)    
       console.log("Search flight 2");
       
-      console.log("result", result);
-      console.log("Airport result", result.data);
+      // console.log("result", result);
+      // console.log("Airport result", result.data);
 
       if(result.status){
         setAirport(result.data)
@@ -110,7 +110,7 @@ const OneWay = () => {
     }
   }
 
-  const airportPick = (airport) =>{
+  const airportPick = (airport, activeField) =>{
   if(activeField==='from'){
 
     setFromFlight(airport.presentation.title)
@@ -144,12 +144,20 @@ const OneWay = () => {
     console.log("flight search func");
     
     const flightSearch = await getFlights(fromDetails, toDetails)
-    if(flightSearch.status){
-      navigation.navigate('Flights', {flights: flightSearch.data})
-    }
-    else {
+    console.log("after");
+    
+    // if(flightSearch.status){
+      // console.log("in if ");
+      
+      // navigation.navigate('Flights', {flights: flightSearch.data})
+    // }
+    // else {  // laterremove
+      console.log("else");
+      
       navigation.navigate('Flights')
-    }
+    // }
+    console.log("end");
+    
 
     
   }
@@ -185,7 +193,7 @@ const OneWay = () => {
               key={item.entityId || index}
               style={styles.suggestionItem}
               onPress={() => {
-                airportPick(item)
+                airportPick(item, activeField)
                 console.log("Selected Airport");
                 
               }}

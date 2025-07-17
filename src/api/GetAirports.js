@@ -32,7 +32,7 @@ export async function getAirports (queryParam){
         
     } catch (error) {
         console.log("error in getAirports:",error);
-        throw error
+        // throw error
         
     }
 }
@@ -58,7 +58,7 @@ export async function getFlights(fromDetails, toDetails) {
         
         return(flights.data)
     } catch (error) {
-        console.log("error in getFlights", error);
+        // console.log("error in getFlights", error);
     }
 }
 
