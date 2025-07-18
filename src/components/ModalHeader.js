@@ -7,7 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import { COLORS } from '../constants/COLORS';
 
-const ModalHeader = ({title='Flight', onPress}) => {
+const ModalHeader = ({title='Flight', onPress, iconName='cross'}) => {
   console.log("Modal Header");
   
   return (
@@ -15,7 +15,7 @@ const ModalHeader = ({title='Flight', onPress}) => {
         <StatusBar barStyle="dark-content" backgroundColor={COLORS.statusBar} />
     
       <TouchableOpacity onPress={onPress} style={styles.iconButton}>
-        <EntypoIcon name="cross" size={26} color="#000" />
+        <EntypoIcon name={iconName} size={26} color="#000" />
       </TouchableOpacity>
       
 
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         marginTop: hp('3%'),
         paddingTop: hp('1%'),
         marginTop: hp('5%'),
+        backgroundColor: COLORS.white,
         // marginHorizontal: wp('2%'),
         // backgroundColor: 'red'
     },

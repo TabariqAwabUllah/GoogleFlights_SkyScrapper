@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import ModalHeader from '../components/ModalHeader';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import { COLORS } from '../constants/COLORS';
 
 const Flights = () => {
     console.log("Flights screen");
@@ -11,13 +14,13 @@ const Flights = () => {
 
     const navigation = useNavigation()
     const route = useRoute()
-    const { flights } = route.params
+    // const { flights } = route.params
     
-    useEffect(() => {
-        if (flights) {
-            setFlightsArray(flights.itineraries || [])
-        }
-    }, [flights])
+    // useEffect(() => {
+    //     if (flights) {
+    //         setFlightsArray(flights.itineraries || [])
+    //     }
+    // }, [flights])
 
     const formatTime = (dateString) => {
         const date = new Date(dateString)
@@ -163,13 +166,7 @@ const Flights = () => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.pop()}>
-                    <Text style={styles.backButton}>← Back</Text>
-                </TouchableOpacity>
-                <Text style={styles.headerTitle}>Flights</Text>
-                <View style={styles.placeholder} />
-            </View>
+            <ModalHeader iconName='arrow-back' onPress={()=>{navigation.pop()}}/>
 
             <View style={styles.filtersContainer}>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filtersScroll}>
@@ -207,9 +204,9 @@ const Flights = () => {
             </View>
 
             <ScrollView style={styles.flightsList}>
-                {processedFlights.map((flight, index) => (
+                {/* {processedFlights.map((flight, index) => (
                     <FlightCard key={flight.id || index} flight={flight} />
-                ))}
+                ))} */}
                 
                 {processedFlights.length === 0 && (
                     <View style={styles.emptyState}>
@@ -226,56 +223,56 @@ export default Flights
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: COLORS.white,
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 50,
-        paddingBottom: 20,
+        paddingHorizontal: wp('5%'),
+        paddingTop: hp('6%'),
+        paddingBottom: hp('2.5%'),
         backgroundColor: '#fff',
         elevation: 2,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 0, height: hp('0.25%') },
         shadowOpacity: 0.1,
-        shadowRadius: 4,
+        shadowRadius: wp('1%'),
     },
     backButton: {
-        fontSize: 16,
+        fontSize: wp('4%'),
         color: '#007AFF',
         fontWeight: '600',
     },
     headerTitle: {
-        fontSize: 18,
+        fontSize: wp('4.5%'),
         fontWeight: '600',
         color: '#333',
     },
     placeholder: {
-        width: 50,
+        width: wp('12.5%'),
     },
     filtersContainer: {
         backgroundColor: '#fff',
-        paddingVertical: 15,
+        paddingVertical: hp('1.8%'),
         borderBottomWidth: 1,
         borderBottomColor: '#e0e0e0',
     },
     filtersScroll: {
-        paddingHorizontal: 20,
+        paddingHorizontal: wp('5%'),
     },
     filterButton: {
-        paddingHorizontal: 16,
-        paddingVertical: 8,
-        borderRadius: 20,
+        paddingHorizontal: wp('4%'),
+        paddingVertical: hp('1%'),
+        borderRadius: wp('5%'),
         backgroundColor: '#f0f0f0',
-        marginRight: 10,
+        marginRight: wp('2.5%'),
     },
     filterButtonActive: {
         backgroundColor: '#007AFF',
     },
     filterButtonText: {
-        fontSize: 14,
+        fontSize: wp('3.5%'),
         color: '#666',
         fontWeight: '500',
     },
@@ -284,71 +281,71 @@ const styles = StyleSheet.create({
     },
     flightsList: {
         flex: 1,
-        padding: 20,
+        padding: wp('5%'),
     },
     flightCard: {
         backgroundColor: '#fff',
-        borderRadius: 12,
-        padding: 16,
-        marginBottom: 16,
+        borderRadius: wp('3%'),
+        padding: wp('4%'),
+        marginBottom: hp('2%'),
         elevation: 2,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        shadowOffset: { width: 0, height: hp('0.25%') },
         shadowOpacity: 0.1,
-        shadowRadius: 4,
+        shadowRadius: wp('1%'),
     },
     legContainer: {
-        marginBottom: 16,
+        marginBottom: hp('2%'),
     },
     flightHeader: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 8,
+        marginBottom: hp('1%'),
     },
     timeContainer: {
         alignItems: 'center',
     },
     time: {
-        fontSize: 18,
+        fontSize: wp('4.5%'),
         fontWeight: '600',
         color: '#333',
     },
     airport: {
-        fontSize: 14,
+        fontSize: wp('3.5%'),
         color: '#666',
-        marginTop: 4,
+        marginTop: hp('0.5%'),
     },
     flightMiddle: {
         flex: 1,
         alignItems: 'center',
-        marginHorizontal: 20,
+        marginHorizontal: wp('5%'),
     },
     duration: {
-        fontSize: 12,
+        fontSize: wp('3%'),
         color: '#666',
-        marginBottom: 8,
+        marginBottom: hp('1%'),
     },
     flightLine: {
         flexDirection: 'row',
         alignItems: 'center',
         width: '100%',
-        marginBottom: 8,
+        marginBottom: hp('1%'),
     },
     dot: {
-        width: 6,
-        height: 6,
-        borderRadius: 3,
+        width: wp('1.5%'),
+        height: wp('1.5%'),
+        borderRadius: wp('0.75%'),
         backgroundColor: '#007AFF',
     },
     line: {
         flex: 1,
         height: 1,
         backgroundColor: '#007AFF',
-        marginHorizontal: 4,
+        marginHorizontal: wp('1%'),
     },
     stops: {
-        fontSize: 12,
+        fontSize: wp('3%'),
         color: '#666',
     },
     flightDetails: {
@@ -357,23 +354,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     airline: {
-        fontSize: 14,
+        fontSize: wp('3.5%'),
         color: '#666',
     },
     nextDay: {
-        fontSize: 12,
+        fontSize: wp('3%'),
         color: '#FF6B6B',
         fontWeight: '500',
     },
     legSeparator: {
-        marginVertical: 16,
-        paddingVertical: 8,
+        marginVertical: hp('2%'),
+        paddingVertical: hp('1%'),
         borderTopWidth: 1,
         borderTopColor: '#e0e0e0',
         alignItems: 'center',
     },
     legSeparatorText: {
-        fontSize: 14,
+        fontSize: wp('3.5%'),
         color: '#666',
         fontWeight: '500',
     },
@@ -381,8 +378,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 16,
-        paddingTop: 16,
+        marginTop: hp('2%'),
+        paddingTop: hp('2%'),
         borderTopWidth: 1,
         borderTopColor: '#e0e0e0',
     },
@@ -392,18 +389,18 @@ const styles = StyleSheet.create({
     },
     tag: {
         backgroundColor: '#E8F5E8',
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 4,
-        marginRight: 8,
+        paddingHorizontal: wp('2%'),
+        paddingVertical: hp('0.5%'),
+        borderRadius: wp('1%'),
+        marginRight: wp('2%'),
     },
     tagText: {
-        fontSize: 12,
+        fontSize: wp('3%'),
         color: '#4CAF50',
         fontWeight: '500',
     },
     price: {
-        fontSize: 20,
+        fontSize: wp('5%'),
         fontWeight: '700',
         color: '#333',
     },
@@ -411,10 +408,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 100,
+        paddingTop: hp('12%'),
     },
     emptyStateText: {
-        fontSize: 16,
+        fontSize: wp('4%'),
         color: '#666',
     },
-})
+});
