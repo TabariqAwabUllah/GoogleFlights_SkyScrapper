@@ -138,7 +138,9 @@ This project is licensed for educational and portfolio purposes. Do not use the 
 ## 💬 **Contact**
 
 **Tabariq Awab Ullah**
+
 React Native Developer
+
 Tabariqawabullah@gmail.com
 
 ---
