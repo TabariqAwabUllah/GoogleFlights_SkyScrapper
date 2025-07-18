@@ -143,5 +143,3 @@ Tabariqawabullah@gmail.com
 
 ---
 
-If you want, I can also generate a **`CONTRIBUTING.md`** or even a sample **issue template** for you. Just let me know.
-
