@@ -1,97 +1,147 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Getting Started
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+# ✈️ GoogleFlights\_SkyScraper
 
-## Step 1: Start Metro
+A **React Native** mobile application to search flights by **destination, date, airline, and price** using the **Sky-Scrapper API** (via RapidAPI).
+The app provides flight details and redirects users to booking sites through deep links.
+Authentication is handled via **Firebase Google Sign-In**.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+---
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## 📲 **Features**
 
-```sh
-# Using npm
+* Search Flights by:
+  ✅ **From / To Locations**
+  ✅ **Departure Dates**
+* View Detailed Flight Information:
+  ✅ **Departure Time**
+  ✅ **Arrival Time**
+  ✅ **Airline Name**
+  ✅ **Flight Rating**
+  ✅ **Price**
+* **Redirect to Booking Websites** via browser deep link.
+* **Google Authentication** via Firebase.
+
+---
+
+## 🔧 **Tech Stack**
+
+| Technology              | Purpose                       |
+| ----------------------- | ----------------------------- |
+| React Native            | Mobile App Framework          |
+| Firebase Auth           | Google Sign-In Authentication |
+| Axios                   | API Requests                  |
+| RapidAPI (Sky-Scrapper) | Flight Search Data            |
+| React Navigation        | Screen Navigation             |
+| ESLint / Prettier       | Code Quality                  |
+| Jest                    | Testing                       |
+
+---
+
+## 🚀 **Getting Started**
+
+### ✅ **Prerequisites**
+
+* Node.js `>= 18`
+* Android Studio / Xcode for emulators
+* Firebase Project with Google Authentication enabled
+* RapidAPI Account for Sky-Scrapper API
+
+---
+
+### 🔑 **Environment Variables**
+
+Create a `.env` file in the root directory:
+
+```env
+RAPID_API_KEY=your_sky_scrapper_api_key_here
+```
+
+> 🔔 **Note:** You need to get your own API Key from [Sky-Scrapper API on RapidAPI](https://rapidapi.com/apiheya/api/sky-scrapper).
+> This key is required for the app to fetch flight data.
+
+---
+
+### 📂 **Installation Steps**
+
+```bash
+# Install dependencies
+npm install
+
+# Start Metro bundler
 npm start
 
-# OR using Yarn
-yarn start
-```
-
-## Step 2: Build and run your app
-
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
+# Run Android
 npm run android
 
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# Run iOS
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+> Make sure you have completed React Native's [environment setup](https://reactnative.dev/docs/environment-setup).
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+---
 
-## Step 3: Modify your app
+## 🔍 **Project Structure (Overview)**
 
-Now that you have successfully run the app, let's make changes!
+```
+src/
+ ├─ api/               # API Calls (Axios)
+ ├─ assets/images/     # Images for UI
+ ├─ components/        # Reusable UI Components
+ ├─ constants/         # Colors, Config
+ ├─ navigation/        # React Navigation Logic
+ ├─ screens/           # Auth, Search, Flight Results, etc.
+ └─ App.js             # Root Entry
+```
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+---
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## 🛠️ **Available Scripts**
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+| Command           | Purpose     |
+| ----------------- | ----------- |
+| `npm start`       | Start Metro |
+| `npm run android` | Run Android |
+| `npm run ios`     | Run iOS     |
+| `npm run lint`    | Linting     |
+| `npm run test`    | Run Tests   |
 
-## Congratulations! :tada:
+---
 
-You've successfully run and modified your React Native App. :partying_face:
+## 📸 **Screenshots**    
 
-### Now what?
+> *Sorry for inconvenience, I will add screenshot later. *
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+---
 
-# Troubleshooting
+## 📤 **Deployment / Release**
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+* Android: `./gradlew assembleRelease`
+* iOS: Standard Xcode archive process.
 
-# Learn More
+---
 
-To learn more about React Native, take a look at the following resources:
+## 🤝 **Contributing**
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Pull requests are welcome.
+For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 📄 **License**
+
+This project is licensed for educational and portfolio purposes. Do not use the Sky-Scrapper API key in public repositories.
+
+---
+
+## 💬 **Contact**
+
+**Tabariq Awab Ullah**
+React Native Developer
+Tabariqawabullah@gmail.com
+
+---
+
+If you want, I can also generate a **`CONTRIBUTING.md`** or even a sample **issue template** for you. Just let me know.
+
