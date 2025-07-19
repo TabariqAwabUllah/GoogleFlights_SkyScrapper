@@ -50,7 +50,7 @@ const HomePage = () => {
               <Text style={styles.airplaneIcon}>✈️</Text>
             </View>
             <View>
-              <Text style={styles.headerTitle}>{name}</Text>
+              <Text style={styles.headerTitle}>{name? name : 'Name'}</Text>
               <Text style={styles.headerSubtitle}>Welcome to flight booking</Text>
             </View>
           </View>

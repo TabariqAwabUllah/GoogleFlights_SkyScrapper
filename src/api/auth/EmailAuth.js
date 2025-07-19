@@ -6,23 +6,30 @@ export async function createUser(name ,email, password){
         console.log("Before creation api");
             
         const creation = await createUserWithEmailAndPassword(auth, email, password)
-        console.log("after Creation api");
+        console.log("after Creation api name",name);
         
-        const user = creation.user
-        await updateProfile(user, {
+        const user = auth.currentUser
+        console.log("User in api before update", user);
+        
+        await user.updateProfile( {
             displayName: name,
             // photoURL: //add this later
         })
-        console.log("After update api");
-        
-        return creation.user
-        // const see = await getAuth().currentUser
-        // console.log("create user see", see);
+
+        console.log("After update api", auth?.currentUser?.displayName);
+
+        // // This code is for sending email verification
+        // if(auth.currentUser){
+        //     await auth.currentUser.sendEmailVerification()
+        //     console.log("verification");
+            
+        // }
+        return auth.currentUser
         
             
     } catch (error) {   
         // console.log("Error in account Creation", error);
-        throw error.message
+        throw error
         
     }
     
@@ -30,6 +37,8 @@ export async function createUser(name ,email, password){
 
 
 export async function loginUser(email, password) {
+    // console.log("autho", auth);
+    
     try {
         console.log("Before login api");
         

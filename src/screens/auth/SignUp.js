@@ -24,7 +24,7 @@ const SignUp = () => {
     const handleSignUp =  async () => {
         // Handle sign up logic
         if(!fullName || !email || !password || !confirmPassword){
-            Alert.alert("Enter Details", "Fill all fiels")
+            Alert.alert("Enter Details", "Fill all fields")
             return
         }
 
@@ -32,6 +32,8 @@ const SignUp = () => {
         if(password === confirmPassword ){ // checks are they same
             try {
                 // creating user with email and password
+                console.log("Name:",fullName);
+                
                 const create = await createUser(fullName, email, confirmPassword)
                 console.log('Sign Up pressed',  create);
 
@@ -50,7 +52,7 @@ const SignUp = () => {
                 }
 
             } catch (error) {
-                console.log("error in sign up", error);
+                console.log("error in sign up", error.message);
                 Alert.alert("Recheck",error)
             }
 
