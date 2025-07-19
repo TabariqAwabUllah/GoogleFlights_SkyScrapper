@@ -23,6 +23,7 @@ const WelcomeScreen = () => {
 
   const handleSignUp = () => {
     // Navigate to sign-up screen
+    navigation.navigate('SignUp')
     console.log('SignUp Pressed');
   };
 

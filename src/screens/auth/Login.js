@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Image, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import {
   widthPercentageToDP as wp,
@@ -8,6 +8,7 @@ import { COLORS } from '../../constants/COLORS';
 import VectorIcon from 'react-native-vector-icons/MaterialIcons';
 import PrimaryButton from '../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
+import { loginUser } from '../../api/auth/EmailAuth';
 
 const Login = () => {
 
@@ -23,10 +24,38 @@ const Login = () => {
         console.log('Forgot Password pressed');
     };
 
-    const handleLogin = () => {
+    // Loging user and passing name, email and image to home screen
+    const handleLogin = async () => {
+
+        if(!email || !password){ // checking nothing is empty
+            Alert.alert("Enter Details", "Fill all fiels")
+            return
+        }
         // Handle login logic
-        navigation.navigate('HomePage');
-        console.log('Login pressed');
+        console.log("lgn prsd");
+        
+        try {
+            const login = await loginUser(email,password)
+            if(login){
+                console.log('Login success', login);
+                navigation.navigate('HomePage', {
+                name: login.displayName,
+                email: login.email,
+                // pic: login.photoURL, // will add later
+            });
+            setEmail('')
+            setPassword('')
+            }
+            
+            
+        } catch (error) {
+            console.log("error in handle login,", error);
+            Alert.alert("Recheck please", error)
+        }
+        
+        
+        // navigation.navigate('HomePage');
+        
     };
     
 
@@ -79,9 +108,13 @@ const Login = () => {
             </View>
 
             {/* Forgot Password */}
-            <TouchableOpacity style={styles.forGot} onPress={handleForgotPassword}>
-                <Text style={styles.forgotText}>Forgot Password</Text>
-            </TouchableOpacity>
+            <View style={[styles.forGot]}>
+                <TouchableOpacity  onPress={handleForgotPassword}>
+                    <Text style={styles.forgotText}>Forgot Password? </Text>
+                </TouchableOpacity>
+
+                <Text style={[styles.forgotText, {alignSelf: 'flex-end'}]} onPress={()=>navigation.navigate('SignUp')}>    Sign up</Text>
+            </View>
 
             <PrimaryButton buttonName={'Log in'} onPress={handleLogin}/>
 

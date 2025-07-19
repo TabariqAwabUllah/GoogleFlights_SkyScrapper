@@ -20,7 +20,7 @@ const PrimaryButton = ({onPress, buttonName, buttonStyle, children}) => {
   )
 }
 
-export default PrimaryButton
+export default React.memo(PrimaryButton)
 
 const styles = StyleSheet.create({
   container:{

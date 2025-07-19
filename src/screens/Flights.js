@@ -225,25 +225,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: COLORS.white,
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: wp('5%'),
-        paddingTop: hp('6%'),
-        paddingBottom: hp('2.5%'),
-        backgroundColor: '#fff',
-        elevation: 2,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: hp('0.25%') },
-        shadowOpacity: 0.1,
-        shadowRadius: wp('1%'),
-    },
-    backButton: {
-        fontSize: wp('4%'),
-        color: '#007AFF',
-        fontWeight: '600',
-    },
     headerTitle: {
         fontSize: wp('4.5%'),
         fontWeight: '600',
@@ -256,7 +237,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         paddingVertical: hp('1.8%'),
         borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
+        borderBottomColor: COLORS.lightGray,
     },
     filtersScroll: {
         paddingHorizontal: wp('5%'),
@@ -269,7 +250,7 @@ const styles = StyleSheet.create({
         marginRight: wp('2.5%'),
     },
     filterButtonActive: {
-        backgroundColor: '#007AFF',
+        backgroundColor: COLORS.primary,
     },
     filterButtonText: {
         fontSize: wp('3.5%'),

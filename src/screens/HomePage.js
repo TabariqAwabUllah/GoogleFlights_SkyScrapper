@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -16,14 +15,29 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import { COLORS } from '../constants/COLORS';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
 
 const HomePage = () => {
     const navigation = useNavigation()
+
+    const routes = useRoute()
+
+    const {name, email, pic} = routes.params
+
     const handleFlightSearch = () => {
         // Navigate to FlightSearchModal
         navigation.navigate('FlightSearchScreen');
         // This function should be implemented to handle navigation
     };
+
+    const imageOne = () =>{
+      navigation.navigate('FlightSearchScreen', {flightTo: 'Hongkong'})
+    }
+
+    const imageTwo = () =>{
+      navigation.navigate('FlightSearchScreen', {flightTo: 'San Antonio'})
+    }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
@@ -36,12 +50,12 @@ const HomePage = () => {
               <Text style={styles.airplaneIcon}>✈️</Text>
             </View>
             <View>
-              <Text style={styles.headerTitle}>Explore flight</Text>
+              <Text style={styles.headerTitle}>{name}</Text>
               <Text style={styles.headerSubtitle}>Welcome to flight booking</Text>
             </View>
           </View>
           <View style={styles.profileIcon}>
-            <Text style={styles.profileText}>A</Text>
+            <Text style={styles.profileText}>{pic? pic : name[0]}</Text>
           </View>
         </View>
       </View>
@@ -67,7 +81,7 @@ const HomePage = () => {
           <Text style={styles.sectionTitle}>The best cities for you</Text>
           
           <View style={styles.citiesContainer}>
-            <TouchableOpacity style={styles.cityCard}>
+            <TouchableOpacity style={styles.cityCard} onPress={imageOne}>
               <ImageBackground
                 source={{
                   uri: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
@@ -82,7 +96,7 @@ const HomePage = () => {
               </ImageBackground>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.cityCard}>
+            <TouchableOpacity style={styles.cityCard} onPress={imageTwo}>
               <ImageBackground
                 source={{
                   uri: 'https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
@@ -103,7 +117,7 @@ const HomePage = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Explore Destinations</Text>
           
-          <TouchableOpacity style={styles.destinationCard}>
+          <TouchableOpacity style={styles.destinationCard} onPress={handleFlightSearch}>
             <ImageBackground
               source={{
                 uri: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
@@ -142,11 +156,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    backgroundColor: '#fff',
+    backgroundColor: COLORS.white,
     paddingHorizontal: wp('5%'),
     paddingVertical: hp('2%'),
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: COLORS.gray,
+    marginTop: hp('2%')
   },
   headerContent: {
     flexDirection: 'row',
@@ -161,7 +176,7 @@ const styles = StyleSheet.create({
     width: wp('10%'),
     height: wp('10%'),
     borderRadius: wp('5%'),
-    backgroundColor: '#6C5CE7',
+    // backgroundColor: '#6C5CE7',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: wp('3%'),
