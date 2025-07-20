@@ -8,7 +8,9 @@ import DateButton from '../../components/DateButton'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TravelModal from '../../components/TravelModal'
 import PrimaryButton from '../../components/PrimaryButton'
-import getAirports from '../../api/GetAirports'
+import getAirports, { getFlightDetails } from '../../api/GetAirports'
+import Navigation from '../../navigation/Navigation'
+import { useNavigation } from '@react-navigation/native'
 
 const RoundTrip = () => {
   console.log("RoundTrip");
@@ -29,7 +31,7 @@ const RoundTrip = () => {
 
   // const totalTravelers = travelers.adults + travelers.children + travelers.infants + travelers.infantsOnLap;
 
-
+  const navigation = useNavigation()
   // const totalTravelers = (travelers) =>{
   //   const total = travelers.adults + travelers.children + travelers.infants + travelers.infantsOnLap;
   //   return total; 
@@ -38,7 +40,7 @@ const RoundTrip = () => {
   // console.log("Airports", airport);
   
   // Calling api to search flights
-  const searchFlights = async (airport, field) =>{
+  const searchAirport = async (airport, field) =>{
 
     // if no data or letters less than 2 api won't call.
     if(!airport || airport.length < 2 ){
@@ -92,7 +94,7 @@ const RoundTrip = () => {
     setDatePickerView(true);
   }
 
-  
+
 
   //  Date picker change handler
   //  This function will be called when the user selects a date or dismisses the picker
@@ -129,7 +131,7 @@ const RoundTrip = () => {
       value={fromFlight} 
       onChangeText={(text)=>{
         setFromFlight(text)
-        searchFlights(text, 'from')
+        searchAirport(text, 'from')
       }   
       }/>
 
@@ -139,7 +141,7 @@ const RoundTrip = () => {
       value={toFlight} 
       onChangeText={(text)=>{
         setToFlight(text)
-        searchFlights(text, 'to')
+        searchAirport(text, 'to')
       }}/>
 
       {
@@ -183,7 +185,7 @@ const RoundTrip = () => {
         <TravelModal />
 
         {/* <View style={{flex: 1}}> */}
-          <PrimaryButton buttonName={'Search Flights'} buttonStyle={styles.searchButton} />
+          <PrimaryButton buttonName={'Search Flights'} buttonStyle={styles.searchButton}/>
         {/* </View> */}
         
         

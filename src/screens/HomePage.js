@@ -22,8 +22,9 @@ const HomePage = () => {
     const navigation = useNavigation()
 
     const routes = useRoute()
+    // uncomment later
+    const {name = 'Ahmed', email='Awab@gmail.com', pic=''} = routes?.params || {}
 
-    const {name, email, pic} = routes.params
 
     const handleFlightSearch = () => {
         // Navigate to FlightSearchModal
@@ -55,7 +56,7 @@ const HomePage = () => {
             </View>
           </View>
           <View style={styles.profileIcon}>
-            <Text style={styles.profileText}>{pic? pic : name[0]}</Text>
+            <Text style={styles.profileText}>{pic? pic : name[0].toUpperCase()}</Text>
           </View>
         </View>
       </View>

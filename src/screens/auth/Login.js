@@ -125,7 +125,7 @@ const Login = () => {
             </View>
 
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                <PrimaryButton buttonName={'Facebook'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}}/>
+                <PrimaryButton buttonName={'Facebook'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}} onPress={()=>navigation.navigate('HomePage')}/>
 
                 <PrimaryButton buttonName={'Google'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}}/>
             </View>

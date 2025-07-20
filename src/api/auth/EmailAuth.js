@@ -1,6 +1,7 @@
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from '@react-native-firebase/auth'
 
 const auth = getAuth()
+
 export async function createUser(name ,email, password){
     try {
         console.log("Before creation api");

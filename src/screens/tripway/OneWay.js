@@ -8,7 +8,7 @@ import DateButton from '../../components/DateButton'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import TravelModal from '../../components/TravelModal'
 import PrimaryButton from '../../components/PrimaryButton'
-import { getAirports, getFlights } from '../../api/GetAirports'
+import { getAirports, searchFlights } from '../../api/GetAirports'
 import { useNavigation } from '@react-navigation/native'
 
 
@@ -143,19 +143,26 @@ const OneWay = () => {
   const flightSearch =async (fromDetails, toDetails)=>{
     console.log("flight search func");
     
-    const flightSearch = await getFlights(fromDetails, toDetails)
+    const flightSearch = await searchFlights(fromDetails, toDetails)
     console.log("after");
+    // console.log('flights func', flightSearch);
     
-    // if(flightSearch.status){
-      // console.log("in if ");
+    
+    // later
+    if(flightSearch.status){
+      console.log("in if flight search", flightSearch.data.itineraries);
       
-      // navigation.navigate('Flights', {flights: flightSearch.data})
-    // }
-    // else {  // laterremove
+      // passing flight data
+      navigation.navigate('Flights', {
+        flights: flightSearch.data.itineraries,
+        sessionId: flightSearch.sessionId,
+      })
+    }
+    else {  // laterremove
       console.log("else");
       
-      navigation.navigate('Flights')
-    // }
+      // navigation.navigate('Flights')
+    }
     console.log("end");
     
 
