@@ -58,6 +58,17 @@ const Login = () => {
         // navigation.navigate('HomePage');
         
     };
+    const googleSignin = async () =>{
+        console.log("in login");
+        
+        try {
+            await onGoogleButtonPress()
+
+        } catch (error) {
+            console.log("Error in login screen");
+            
+        }
+    }
     
 
   return (
@@ -128,7 +139,7 @@ const Login = () => {
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <PrimaryButton buttonName={'Facebook'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}} onPress={()=>navigation.navigate('HomePage')}/>
 
-                <PrimaryButton buttonName={'Google'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}} onPress={()=> onGoogleButtonPress}/>
+                <PrimaryButton buttonName={'Google'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}} onPress={googleSignin}/>
             </View>
             
             

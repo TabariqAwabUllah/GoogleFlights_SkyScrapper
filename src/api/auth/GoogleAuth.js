@@ -6,27 +6,36 @@ GoogleSignin.configure({
     webClientId: '166956293591-0uhqra54o83a93vdfqdv204r2eleb7ii.apps.googleusercontent.com',
 })
 
+console.log("Google Auth file");
+
+
 export async function onGoogleButtonPress() {
-  // Check if your device supports Google Play
-  await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
-  // Get the users ID token
-  const signInResult = await GoogleSignin.signIn();
+  console.log("In google sign in");
+  console.log("try 1");
 
-  console.log("in google sign in, signInResult", signInResult);
-  
-  // Try the new style of google-sign in result, from v13+ of that module
-  idToken = signInResult.data?.idToken;
-  if (!idToken) {
-    // if you are using older versions of google-signin, try old style result
-    idToken = signInResult.idToken;
+  try {
+    console.log("try 1");
+    
+    const see = await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true})
+    console.log("See",see);
+    
+
+    const signIn = await GoogleSignin.signIn()
+
+    const idToken = signIn.idToken
+    if(!idToken){
+      throw new Error("Token not found of G sign in")
+    }
+    const googleCredentials = GoogleAuthProvider.credentials(idToken)
+    const authResult = await signInWithCredential(getAuth(), googleCredential);
+    console.log('Firebase Auth Result:', authResult);
+
+    return authResult;
+
+    
+  } catch (error) {
+    console.log("errors in google login: ",error);
+    
   }
-  if (!idToken) {
-    throw new Error('No ID token found');
-  }
 
-  // Create a Google credential with the token
-  const googleCredential = GoogleAuthProvider.credential(signInResult.data.idToken);
-
-  // Sign-in the user with the credential
-  return signInWithCredential(getAuth(), googleCredential);
 }
