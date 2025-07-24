@@ -16,6 +16,7 @@ import {
 } from 'react-native-responsive-screen';
 import { COLORS } from '../constants/COLORS';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { logOut } from '../api/auth/EmailAuth';
 
 
 const HomePage = () => {
@@ -38,6 +39,13 @@ const HomePage = () => {
 
     const imageTwo = () =>{
       navigation.navigate('FlightSearchScreen', {flightTo: 'San Antonio'})
+    }
+
+    // Logout function from profile.
+    const logoutPressed = async () =>{
+      await logOut()
+      return navigation.replace('Login') 
+
     }
   return (
     <SafeAreaView style={styles.container}>
@@ -142,7 +150,8 @@ const HomePage = () => {
           <Text style={styles.navIcon}>🧭</Text>
           <Text style={styles.navLabel}>Explore</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+
+        <TouchableOpacity style={styles.navItem} onPress={logoutPressed}>
           <Text style={styles.navIcon}>👤</Text>
           <Text style={styles.navLabel}>Profile</Text>
         </TouchableOpacity>

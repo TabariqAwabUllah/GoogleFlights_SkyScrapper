@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import TravelModal from '../../components/TravelModal'
 import PrimaryButton from '../../components/PrimaryButton'
 import getAirports, { getFlightDetails } from '../../api/GetAirports'
-import Navigation from '../../navigation/Navigation'
 import { useNavigation } from '@react-navigation/native'
 
 const RoundTrip = () => {

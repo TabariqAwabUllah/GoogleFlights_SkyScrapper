@@ -12,6 +12,8 @@ export async function onGoogleButtonPress() {
   // Get the users ID token
   const signInResult = await GoogleSignin.signIn();
 
+  console.log("in google sign in, signInResult", signInResult);
+  
   // Try the new style of google-sign in result, from v13+ of that module
   idToken = signInResult.data?.idToken;
   if (!idToken) {

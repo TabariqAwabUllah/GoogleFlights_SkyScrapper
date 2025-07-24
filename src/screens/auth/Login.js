@@ -9,6 +9,7 @@ import VectorIcon from 'react-native-vector-icons/MaterialIcons';
 import PrimaryButton from '../../components/PrimaryButton';
 import { useNavigation } from '@react-navigation/native';
 import { loginUser } from '../../api/auth/EmailAuth';
+import { onGoogleButtonPress } from '../../api/auth/GoogleAuth';
 
 const Login = () => {
 
@@ -127,7 +128,7 @@ const Login = () => {
             <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
                 <PrimaryButton buttonName={'Facebook'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}} onPress={()=>navigation.navigate('HomePage')}/>
 
-                <PrimaryButton buttonName={'Google'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}}/>
+                <PrimaryButton buttonName={'Google'} buttonStyle={{marginBottom: hp('5%'), width: wp('35%')}} onPress={()=> onGoogleButtonPress}/>
             </View>
             
             

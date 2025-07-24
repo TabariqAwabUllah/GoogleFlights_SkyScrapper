@@ -1,4 +1,5 @@
-import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from '@react-native-firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, signOut } from '@react-native-firebase/auth'
+import Navigation from '../../navigation/Navigation';
 
 const auth = getAuth()
 
@@ -50,6 +51,19 @@ export async function loginUser(email, password) {
     } catch (error) {
         console.log("error in user login api", error);
         throw error.message
+        
+    }
+}
+
+
+export async function logOut(){
+    console.log('in logout ');
+    
+    try {
+        await signOut(auth)
+    } catch (error) {
+        console.log("error in logout", error);
+        
         
     }
 }
