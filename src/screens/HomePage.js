@@ -17,6 +17,7 @@ import {
 import { COLORS } from '../constants/COLORS';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { logOut } from '../api/auth/EmailAuth';
+import { googleSignOut } from '../api/auth/GoogleAuth';
 
 
 const HomePage = () => {
@@ -46,6 +47,13 @@ const HomePage = () => {
       await logOut()
       return navigation.replace('Login') 
 
+    }
+
+    const googleLogOut = async() =>{
+      console.log("in google logout");
+      
+      await googleSignOut()
+      return navigation.replace('Login') 
     }
   return (
     <SafeAreaView style={styles.container}>
@@ -146,7 +154,7 @@ const HomePage = () => {
           <Text style={styles.navIconActive}>🏠</Text>
           <Text style={styles.navLabelActive}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={googleLogOut}>
           <Text style={styles.navIcon}>🧭</Text>
           <Text style={styles.navLabel}>Explore</Text>
         </TouchableOpacity>

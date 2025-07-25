@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, getAuth, signInWithCredential } from '@react-native-firebase/auth'
+import { GoogleAuthProvider, getAuth, signInWithCredential, signOut } from '@react-native-firebase/auth'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
 
@@ -24,13 +24,13 @@ export async function onGoogleButtonPress() {
     console.log("Sign IN", signIn);
     
 
-    const idToken = signIn.idToken
+    const idToken = signIn.data.idToken
     console.log("id Token",idToken);
     
     if(!idToken){
       throw new Error("Token not found of G sign in")
     }
-    const googleCredentials = GoogleAuthProvider.credentials(idToken)
+    const googleCredentials = GoogleAuthProvider.credential(idToken)
     console.log("googleCredentials", googleCredentials);
     
     const authResult = await signInWithCredential(getAuth(), googleCredentials);
@@ -45,4 +45,17 @@ export async function onGoogleButtonPress() {
     
   }
 
+}
+
+
+export async function googleSignOut(){
+  console.log("google sign out");
+  
+  try {
+    await GoogleSignin.signOut()
+    await signOut(getAuth())
+  } catch (error) {
+    console.log("Error in sign out google");
+    
+  }
 }
