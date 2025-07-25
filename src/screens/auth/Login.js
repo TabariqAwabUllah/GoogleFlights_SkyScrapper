@@ -63,7 +63,7 @@ const Login = () => {
         
         try {
             await onGoogleButtonPress()
-
+            navigation.navigate('HomePage')
         } catch (error) {
             console.log("Error in login screen");
             

@@ -25,11 +25,16 @@ export async function onGoogleButtonPress() {
     
 
     const idToken = signIn.idToken
+    console.log("id Token",idToken);
+    
     if(!idToken){
       throw new Error("Token not found of G sign in")
     }
     const googleCredentials = GoogleAuthProvider.credentials(idToken)
+    console.log("googleCredentials", googleCredentials);
+    
     const authResult = await signInWithCredential(getAuth(), googleCredentials);
+    
     console.log('Firebase Auth Result:', authResult);
 
     return authResult;
