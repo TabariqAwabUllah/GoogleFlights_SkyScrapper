@@ -1,5 +1,8 @@
 import { GoogleAuthProvider, getAuth, signInWithCredential, signOut } from '@react-native-firebase/auth'
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import { useNavigation } from '@react-navigation/native';
+
+
 
 
 GoogleSignin.configure({
@@ -49,13 +52,17 @@ export async function onGoogleButtonPress() {
 
 
 export async function googleSignOut(){
+  console.log("G logout 1");
+  
+  const navigation = useNavigation()
   console.log("google sign out");
   
   try {
     await GoogleSignin.signOut()
     await signOut(getAuth())
+    return navigation.replace('Login') 
   } catch (error) {
-    console.log("Error in sign out google");
+    console.log("Error in sign out google", error);
     
   }
 }

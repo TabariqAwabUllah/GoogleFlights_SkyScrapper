@@ -53,7 +53,7 @@ const HomePage = () => {
       console.log("in google logout");
       
       await googleSignOut()
-      return navigation.replace('Login') 
+      
     }
   return (
     <SafeAreaView style={styles.container}>
